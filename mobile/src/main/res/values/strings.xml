@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Nikahin</string>
+    <string name="transaction_header">transactionHeader</string>
+    <string name="fake_wedname"><![CDATA[Dadang jebred & Julia kombatrin]]></string>
+    <string name="fake_date">12 April 2018</string>
+</resources>
