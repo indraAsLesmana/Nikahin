@@ -1,5 +1,7 @@
 package com.tutor93.nikahin.ui.home;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,10 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.tutor93.core.data.DataManager;
+import com.tutor93.core.data.model.History;
 import com.tutor93.core.ui.home.HomeContract;
 import com.tutor93.core.ui.home.HomePresenter;
 import com.tutor93.nikahin.R;
+import com.tutor93.nikahin.util.Constant;
+
+import java.util.List;
 
 /**
  * Created by indraaguslesmana on 6/8/17.
@@ -23,9 +32,10 @@ import com.tutor93.nikahin.R;
 public class HomeFragment extends Fragment implements HomeContract.HomeClickView{
 
     private HomePresenter mHomePresenter;
+    private List<History.Invitation> mHistory;
+    private ImageView mHeaderImage;
+
     private AppCompatActivity mActivity;
-
-
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -34,7 +44,7 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHomePresenter = new HomePresenter();
+        mHomePresenter = new HomePresenter(DataManager.getInstance());
     }
 
     @Nullable
@@ -42,9 +52,12 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        mHeaderImage = (ImageView) view.findViewById(R.id.iv_header);
 
         mHomePresenter.attachView(this);
         initViews(view);
+        mHomePresenter.onHistoryRequest(Constant.TOKEN); // trigger to load API
+
         return view;
     }
 
@@ -59,11 +72,24 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
-        /*Picasso.with(mActivity)
-                .l
-                .centerCrop()
-                .fit()
-                .into((ImageView) view.findViewById(R.id.iv_header));*/
+      /*  Glide.with(this)
+                .load(mHistory.get(0).imageGallery.get(0))
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                        BitmapDrawable bitmap1 = new
+                                BitmapDrawable(getResources(), bitmap);
+                        mHeaderImage.setBackground(bitmap1);
+                    }
+                });*/
+
+    }
+
+
+    @Override
+    public void showHistoryList(List<History.Invitation> histories) {
+        mHistory = histories;
     }
 
     @Override

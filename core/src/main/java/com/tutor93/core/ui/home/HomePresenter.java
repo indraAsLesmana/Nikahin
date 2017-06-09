@@ -1,5 +1,8 @@
 package com.tutor93.core.ui.home;
 
+import com.tutor93.core.data.DataManager;
+import com.tutor93.core.data.model.History;
+import com.tutor93.core.data.network.RemoteCallback;
 import com.tutor93.core.ui.base.BasePresenter;
 
 /**
@@ -9,23 +12,38 @@ import com.tutor93.core.ui.base.BasePresenter;
 public class HomePresenter extends BasePresenter<HomeContract.HomeClickView> implements
         HomeContract.ViewActions {
 
-    @Override
-    public void onHomeBarcodeClick() {
+    private DataManager mDataManager;
+    private History mHistory;
 
+    public HomePresenter(DataManager dataManager) {
+        mDataManager = dataManager;
     }
 
     @Override
-    public void onHomeSeeallClick() {
-
+    public void onHistoryRequest(String token) {
+        getHistory(token);
     }
 
-    @Override
-    public void onHomeButtoncenterClick() {
+    private void getHistory(String token) {
+        if (!isViewAttached()) return;
 
+        mDataManager.getHistoryList(token, new RemoteCallback<History>() {
+            @Override
+            public void onSuccess(History response) {
+                mView.showHistoryList(response.invitations);
+            }
+
+            @Override
+            public void onUnauthorized() {
+
+            }
+
+            @Override
+            public void onFailed(Throwable throwable) {
+
+            }
+        });
     }
 
-    @Override
-    public void onHomeImageClick() {
 
-    }
 }

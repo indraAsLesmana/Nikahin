@@ -3,4 +3,7 @@
     <string name="transaction_header">transactionHeader</string>
     <string name="fake_wedname"><![CDATA[Dadang jebred & Julia kombatrin]]></string>
     <string name="fake_date">12 April 2018</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
