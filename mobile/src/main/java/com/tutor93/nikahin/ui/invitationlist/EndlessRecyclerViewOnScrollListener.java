@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.tutor93.nikahin.ui.historylist;
+package com.tutor93.nikahin.ui.invitationlist;
 
 
 import android.support.v7.widget.GridLayoutManager;

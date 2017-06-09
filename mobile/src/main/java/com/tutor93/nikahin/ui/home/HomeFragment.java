@@ -56,7 +56,6 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
 
         mHomePresenter.attachView(this);
         initViews(view);
-        mHomePresenter.onHistoryRequest(Constant.TOKEN); // trigger to load API
 
         return view;
     }
@@ -84,12 +83,6 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
                     }
                 });*/
 
-    }
-
-
-    @Override
-    public void showHistoryList(List<History.Invitation> histories) {
-        mHistory = histories;
     }
 
     @Override

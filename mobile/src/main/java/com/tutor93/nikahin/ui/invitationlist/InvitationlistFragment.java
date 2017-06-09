@@ -1,4 +1,4 @@
-package com.tutor93.nikahin.ui.historylist;
+package com.tutor93.nikahin.ui.invitationlist;
 
 
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +22,10 @@ import android.widget.TextView;
 
 import com.tutor93.core.data.DataManager;
 import com.tutor93.core.data.model.History;
-import com.tutor93.core.ui.historylist.HistorylistContract;
-import com.tutor93.core.ui.historylist.HistorylistPresenter;
+import com.tutor93.core.ui.invitationlist.InvitationlistContract;
+import com.tutor93.core.ui.invitationlist.InvitationlistPresenter;
 import com.tutor93.nikahin.R;
 import com.tutor93.nikahin.ui.home.HomeActivity;
-import com.tutor93.nikahin.ui.home.HomeFragment;
 import com.tutor93.nikahin.util.Constant;
 import com.tutor93.nikahin.util.DisplayMetricsUtil;
 
@@ -36,16 +34,16 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistorylistFragment extends Fragment implements HistorylistContract.HistorylistView,
-        HistorylistAdapter.InteractionListener, SwipeRefreshLayout.OnRefreshListener {
+public class InvitationlistFragment extends Fragment implements InvitationlistContract.HistorylistView,
+        InvitationlistAdapter.InteractionListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final int TAB_LAYOUT_SPAN_SIZE = 2;
     private static final int TAB_LAYOUT_ITEM_SPAN_SIZE = 1;
     private static final int SCREEN_TABLET_DP_WIDTH = 600;
 
     private AppCompatActivity mActivity;
-    private HistorylistPresenter mHistorylistPresenter;
-    private HistorylistAdapter mHistorylistAdapter;
+    private InvitationlistPresenter mInvitationlistPresenter;
+    private InvitationlistAdapter mInvitationlistAdapter;
 
     private RecyclerView mHistorysRecycler;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -57,15 +55,15 @@ public class HistorylistFragment extends Fragment implements HistorylistContract
     private Button mMessageButton;
 
 
-    public static HistorylistFragment newInstance() {
-        return new HistorylistFragment();
+    public static InvitationlistFragment newInstance() {
+        return new InvitationlistFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHistorylistPresenter = new HistorylistPresenter(DataManager.getInstance());
-        mHistorylistAdapter = new HistorylistAdapter();
+        mInvitationlistPresenter = new InvitationlistPresenter(DataManager.getInstance());
+        mInvitationlistAdapter = new InvitationlistAdapter();
     }
 
     @Override
@@ -74,10 +72,10 @@ public class HistorylistFragment extends Fragment implements HistorylistContract
         View view =  inflater.inflate(R.layout.fragment_historylist, container, false);
 
         initViews(view);
-        mHistorylistPresenter.attachView(this);
-        mHistorylistAdapter.setHistorylistInteractionListener(this);
-        if (mHistorylistAdapter.isEmpty()) {
-            mHistorylistPresenter.onInitialListRequested(Constant.TOKEN);
+        mInvitationlistPresenter.attachView(this);
+        mInvitationlistAdapter.setHistorylistInteractionListener(this);
+        if (mInvitationlistAdapter.isEmpty()) {
+            mInvitationlistPresenter.onInitialListRequested(Constant.TOKEN);
         }
         return view;
     }
@@ -90,7 +88,7 @@ public class HistorylistFragment extends Fragment implements HistorylistContract
         mHistorysRecycler.setHasFixedSize(true);
         mHistorysRecycler.setMotionEventSplittingEnabled(false);
         mHistorysRecycler.setItemAnimator(new DefaultItemAnimator());
-        mHistorysRecycler.setAdapter(mHistorylistAdapter);
+        mHistorysRecycler.setAdapter(mInvitationlistAdapter);
 
         boolean isTabletLayout = DisplayMetricsUtil.isScreenW(SCREEN_TABLET_DP_WIDTH);
         mHistorysRecycler.setLayoutManager(setUpLayoutManager(isTabletLayout));
@@ -132,8 +130,8 @@ public class HistorylistFragment extends Fragment implements HistorylistContract
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                switch (mHistorylistAdapter.getItemViewType(position)) {
-                    case HistorylistAdapter.VIEW_TYPE_LOADING:
+                switch (mInvitationlistAdapter.getItemViewType(position)) {
+                    case InvitationlistAdapter.VIEW_TYPE_LOADING:
                         // If it is a loading view we wish to accomplish a single item per row
                         return spanCount;
                     default:
@@ -151,7 +149,7 @@ public class HistorylistFragment extends Fragment implements HistorylistContract
                 (GridLayoutManager) layoutManager : (LinearLayoutManager) layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                if (mHistorylistAdapter.addLoadingView()) {
+                if (mInvitationlistAdapter.addLoadingView()) {
 //                    onRefresh();
                     // need change behavior of pull to refresh
                 }
@@ -162,16 +160,16 @@ public class HistorylistFragment extends Fragment implements HistorylistContract
 
     @Override
     public void showHistorylist(List<History.Invitation> invitations) {
-        if (mHistorylistAdapter.getViewType() != HistorylistAdapter.VIEW_TYPE_GALLERY) {
-            mHistorylistAdapter.removeAll();
-            mHistorylistAdapter.setViewType(HistorylistAdapter.VIEW_TYPE_GALLERY);
+        if (mInvitationlistAdapter.getViewType() != InvitationlistAdapter.VIEW_TYPE_GALLERY) {
+            mInvitationlistAdapter.removeAll();
+            mInvitationlistAdapter.setViewType(InvitationlistAdapter.VIEW_TYPE_GALLERY);
         }
 
         if (!mSwipeRefreshLayout.isActivated()) {
             mSwipeRefreshLayout.setEnabled(true);
         }
 
-        mHistorylistAdapter.addItems(invitations);
+        mInvitationlistAdapter.addItems(invitations);
     }
 
     @Override
@@ -212,8 +210,8 @@ public class HistorylistFragment extends Fragment implements HistorylistContract
 
     @Override
     public void onRefresh() {
-        mHistorylistAdapter.removeAll();
-        mHistorylistPresenter.onInitialListRequested(Constant.TOKEN);
+        mInvitationlistAdapter.removeAll();
+        mInvitationlistPresenter.onInitialListRequested(Constant.TOKEN);
     }
 
     private Bundle makeTransitionBundle(View sharedElementView) {

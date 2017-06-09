@@ -1,7 +1,5 @@
-package com.tutor93.nikahin.ui.historylist;
+package com.tutor93.nikahin.ui.invitationlist;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.squareup.picasso.Picasso;
 import com.tutor93.core.data.model.History;
 import com.tutor93.nikahin.R;
@@ -26,7 +21,7 @@ import java.util.List;
  * Created by indraaguslesmana on 6/9/17.
  */
 
-public class HistorylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class InvitationlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private final List<History.Invitation> mInvitationList;
     private InteractionListener mHistorylistInteractionListener;
@@ -44,7 +39,7 @@ public class HistorylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @ViewType
     private int mViewType;
 
-    public HistorylistAdapter() {
+    public InvitationlistAdapter() {
         mInvitationList = new ArrayList<>();
         mViewType = VIEW_TYPE_GALLERY;
         mHistorylistInteractionListener = null;

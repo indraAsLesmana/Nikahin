@@ -1,4 +1,4 @@
-package com.tutor93.core.ui.historylist;
+package com.tutor93.core.ui.invitationlist;
 
 import android.support.annotation.NonNull;
 
@@ -13,12 +13,12 @@ import java.util.List;
  * Created by indraaguslesmana on 6/9/17.
  */
 
-public class HistorylistPresenter extends BasePresenter<HistorylistContract.HistorylistView>
-        implements HistorylistContract.ViewActions {
+public class InvitationlistPresenter extends BasePresenter<InvitationlistContract.HistorylistView>
+        implements InvitationlistContract.ViewActions {
 
     private final DataManager mDataManager;
 
-    public HistorylistPresenter(@NonNull DataManager dataManager) {
+    public InvitationlistPresenter(@NonNull DataManager dataManager) {
         mDataManager = dataManager;
     }
 
