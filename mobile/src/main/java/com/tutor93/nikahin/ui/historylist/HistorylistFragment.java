@@ -14,6 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.tutor93.core.data.DataManager;
 import com.tutor93.core.data.model.History;
@@ -42,6 +46,12 @@ public class HistorylistFragment extends Fragment implements HistorylistContract
 
     private RecyclerView mHistorysRecycler;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ProgressBar mContentLoadingProgress;
+
+    private View mMessageLayout;
+    private ImageView mMessageImage;
+    private TextView mMessageText;
+    private Button mMessageButton;
 
 
     public static HistorylistFragment newInstance() {
@@ -79,11 +89,28 @@ public class HistorylistFragment extends Fragment implements HistorylistContract
         mHistorysRecycler.setItemAnimator(new DefaultItemAnimator());
         mHistorysRecycler.setAdapter(mHistorylistAdapter);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_to_refresh);
-
         boolean isTabletLayout = DisplayMetricsUtil.isScreenW(SCREEN_TABLET_DP_WIDTH);
         mHistorysRecycler.setLayoutManager(setUpLayoutManager(isTabletLayout));
-        // scroll listerner must set in here.
+        // need to solve behavior of this full to refresh
+        /*mHistorysRecycler.addOnScrollListener(setupScrollListener(isTabletLayout,
+                mHistorysRecycler.getLayoutManager()));*/
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_to_refresh);
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.icons);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        mContentLoadingProgress = (ProgressBar) view.findViewById(R.id.progress);
+        mMessageLayout = view.findViewById(R.id.message_layout);
+        mMessageImage = (ImageView) view.findViewById(R.id.iv_message);
+        mMessageText = (TextView) view.findViewById(R.id.tv_message);
+        mMessageButton = (Button) view.findViewById(R.id.btn_try_again);
+        mMessageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRefresh();
+            }
+        });
 
     }
 
@@ -113,6 +140,20 @@ public class HistorylistFragment extends Fragment implements HistorylistContract
             }
         });
         return gridLayoutManager;
+    }
+
+    private EndlessRecyclerViewOnScrollListener setupScrollListener(boolean isTabletLayout,
+                                                                    RecyclerView.LayoutManager layoutManager) {
+        return new EndlessRecyclerViewOnScrollListener(isTabletLayout ?
+                (GridLayoutManager) layoutManager : (LinearLayoutManager) layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                if (mHistorylistAdapter.addLoadingView()) {
+//                    onRefresh();
+                    // need change behavior of pull to refresh
+                }
+            }
+        };
     }
 
 

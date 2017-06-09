@@ -1,5 +1,8 @@
 package com.tutor93.nikahin.ui.historylist;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -9,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.squareup.picasso.Picasso;
 import com.tutor93.core.data.model.History;
 import com.tutor93.nikahin.R;
@@ -78,15 +84,31 @@ public class HistorylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void onBindGenericItemViewHolder(final CharacterViewHolder holder, int position) {
         holder.name.setText(mInvitationList.get(position).invitationTitle);
+        holder.date.setText(mInvitationList.get(position).invitationDate);
 
         String invitationImage = mInvitationList.get(position).invitationImage;
         if (!TextUtils.isEmpty(invitationImage)) {
-            // try with glide, image not fit to placeholder
+
             Picasso.with(holder.listItem.getContext())
                     .load(invitationImage)
                     .centerCrop()
                     .fit()
                     .into(holder.image);
+
+            // worst result by glide.
+            /*Glide.with(holder.listItem.getContext())
+                    .load(invitationImage)
+                    .asBitmap()
+                    .centerCrop()
+                    .fitCenter()
+                    .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                        BitmapDrawable bitmap1 = new
+                                BitmapDrawable(holder.listItem.getResources(), bitmap);
+                        holder.image.setBackground(bitmap1);
+                    }
+                });*/
         }
     }
 
@@ -108,6 +130,28 @@ public class HistorylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return mViewType;
     }
 
+    public boolean addLoadingView() {
+        if (getItemViewType(mInvitationList.size() - 1) != VIEW_TYPE_LOADING) {
+            add(null);
+            return true;
+        }
+        return false;
+    }
+
+    public void add(History.Invitation item) {
+        add(null, item);
+    }
+
+    public void add(@Nullable Integer position, History.Invitation item) {
+        if (position != null) {
+            mInvitationList.add(position, item);
+            notifyItemInserted(position);
+        } else {
+            mInvitationList.add(item);
+            notifyItemInserted(mInvitationList.size() - 1);
+        }
+    }
+
     /**
      * ViewHolders
      */
@@ -124,12 +168,13 @@ public class HistorylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public class CharacterViewHolder extends RecyclerView.ViewHolder {
 
         public final View listItem;
-        public final TextView name;
+        public final TextView name, date;
         public final AppCompatImageView image;
 
         public CharacterViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.name);
+            date = (TextView) view.findViewById(R.id.date);
             image = (AppCompatImageView) view.findViewById(R.id.image);
             listItem = view;
             listItem.setOnClickListener(new View.OnClickListener() {
