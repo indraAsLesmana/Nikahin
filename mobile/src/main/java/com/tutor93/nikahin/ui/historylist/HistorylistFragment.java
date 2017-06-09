@@ -3,7 +3,9 @@ package com.tutor93.nikahin.ui.historylist;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -24,6 +26,7 @@ import com.tutor93.core.data.model.History;
 import com.tutor93.core.ui.historylist.HistorylistContract;
 import com.tutor93.core.ui.historylist.HistorylistPresenter;
 import com.tutor93.nikahin.R;
+import com.tutor93.nikahin.ui.home.HomeActivity;
 import com.tutor93.nikahin.ui.home.HomeFragment;
 import com.tutor93.nikahin.util.Constant;
 import com.tutor93.nikahin.util.DisplayMetricsUtil;
@@ -203,12 +206,18 @@ public class HistorylistFragment extends Fragment implements HistorylistContract
 
     @Override
     public void onListClick(History.Invitation invitation, View sharedElementView, int adapterPosition) {
-
+        startActivity(HomeActivity.newStartIntent(mActivity, invitation),
+                makeTransitionBundle(sharedElementView));
     }
 
     @Override
     public void onRefresh() {
         mHistorylistAdapter.removeAll();
         mHistorylistPresenter.onInitialListRequested(Constant.TOKEN);
+    }
+
+    private Bundle makeTransitionBundle(View sharedElementView) {
+        return ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity,
+                sharedElementView, ViewCompat.getTransitionName(sharedElementView)).toBundle();
     }
 }

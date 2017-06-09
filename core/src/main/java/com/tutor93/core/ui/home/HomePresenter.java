@@ -19,31 +19,4 @@ public class HomePresenter extends BasePresenter<HomeContract.HomeClickView> imp
         mDataManager = dataManager;
     }
 
-    @Override
-    public void onHistoryRequest(String token) {
-        getHistory(token);
-    }
-
-    private void getHistory(String token) {
-        if (!isViewAttached()) return;
-
-        mDataManager.getHistoryList(token, new RemoteCallback<History>() {
-            @Override
-            public void onSuccess(History response) {
-                mView.showHistoryList(response.invitations);
-            }
-
-            @Override
-            public void onUnauthorized() {
-
-            }
-
-            @Override
-            public void onFailed(Throwable throwable) {
-
-            }
-        });
-    }
-
-
 }

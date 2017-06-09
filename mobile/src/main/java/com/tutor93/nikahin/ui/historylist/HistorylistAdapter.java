@@ -189,17 +189,6 @@ public class HistorylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    /**
-     * Interface for handling list interactions
-     */
-    public interface InteractionListener {
-        void onListClick(History.Invitation invitation, View sharedElementView, int adapterPosition);
-    }
-
-    public void setHistorylistInteractionListener(InteractionListener listInteractionListener) {
-        mHistorylistInteractionListener = listInteractionListener;
-    }
-
     public boolean isEmpty() {
         return getItemCount() == 0;
     }
@@ -213,5 +202,16 @@ public class HistorylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         mInvitationList.addAll(itemsList);
         notifyDataSetChanged();
         notifyItemRangeInserted(getItemCount(), mInvitationList.size() - 1);
+    }
+
+    /**
+     * Interface for handling list interactions
+     */
+    public interface InteractionListener {
+        void onListClick(History.Invitation invitation, View sharedElementView, int adapterPosition);
+    }
+
+    public void setHistorylistInteractionListener(InteractionListener listInteractionListener) {
+        mHistorylistInteractionListener = listInteractionListener;
     }
 }

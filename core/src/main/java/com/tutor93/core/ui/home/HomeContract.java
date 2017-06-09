@@ -13,11 +13,9 @@ public interface HomeContract {
 
     interface ViewActions {
 
-        void onHistoryRequest (String token);
     }
 
     interface HomeClickView extends RemoteView {
 
-        void showHistoryList (List<History.Invitation> histories);
     }
 }
