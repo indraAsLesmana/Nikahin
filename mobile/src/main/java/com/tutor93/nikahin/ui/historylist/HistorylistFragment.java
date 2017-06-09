@@ -71,7 +71,7 @@ public class HistorylistFragment extends Fragment implements HistorylistContract
 
     private void initViews(View view) {
         mActivity = (AppCompatActivity) getActivity();
-        mActivity.setSupportActionBar((Toolbar) view.findViewById(R.id.toolbar));
+//        mActivity.setSupportActionBar((Toolbar) view.findViewById(R.id.toolbar));
 
         mHistorysRecycler = (RecyclerView) view.findViewById(R.id.recycler_historylist);
         mHistorysRecycler.setHasFixedSize(true);

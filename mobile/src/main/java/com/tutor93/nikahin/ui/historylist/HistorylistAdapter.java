@@ -69,7 +69,7 @@ public class HistorylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         View view = null;
         switch (viewType) {
             case VIEW_TYPE_GALLERY:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_character_gallery, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_invitation_gallery, parent, false);
                 break;
             // it can add if new view devine
         }
@@ -79,10 +79,11 @@ public class HistorylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private void onBindGenericItemViewHolder(final CharacterViewHolder holder, int position) {
         holder.name.setText(mInvitationList.get(position).invitationTitle);
 
-        String characterImageUrl = mInvitationList.get(position).invitationImage;
-        if (!TextUtils.isEmpty(characterImageUrl)) {
+        String invitationImage = mInvitationList.get(position).invitationImage;
+        if (!TextUtils.isEmpty(invitationImage)) {
+            // try with glide, image not fit to placeholder
             Picasso.with(holder.listItem.getContext())
-                    .load(characterImageUrl)
+                    .load(invitationImage)
                     .centerCrop()
                     .fit()
                     .into(holder.image);
