@@ -87,6 +87,7 @@ public class InvitationlistFragment extends Fragment implements InvitationlistCo
 
         if (mActivity.getSupportActionBar() != null){
             mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+            mActivity.getSupportActionBar().setIcon(R.drawable.ic_add);
         }
 
         mHistorysRecycler = (RecyclerView) view.findViewById(R.id.recycler_invitationlist);
