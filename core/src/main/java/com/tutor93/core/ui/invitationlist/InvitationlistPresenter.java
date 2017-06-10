@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.tutor93.core.data.DataManager;
 import com.tutor93.core.data.model.History;
+import com.tutor93.core.data.model.Invitation;
 import com.tutor93.core.data.network.RemoteCallback;
 import com.tutor93.core.ui.base.BasePresenter;
 
@@ -34,7 +35,7 @@ public class InvitationlistPresenter extends BasePresenter<InvitationlistContrac
             public void onSuccess(History response) {
                 if (!isViewAttached()) return;
                 mView.hideProgress();
-                List<History.Invitation> responseResults = response.invitations;
+                List<Invitation> responseResults = response.invitations;
                 if (responseResults.isEmpty()) {
                     mView.showEmpty();
                     return;

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tutor93.core.data.model.History;
+import com.tutor93.core.data.model.Invitation;
 import com.tutor93.nikahin.R;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class InvitationlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private final List<History.Invitation> mInvitationList;
+    private final List<Invitation> mInvitationList;
     private InteractionListener mHistorylistInteractionListener;
 
     /**
@@ -133,11 +134,11 @@ public class InvitationlistAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return false;
     }
 
-    public void add(History.Invitation item) {
+    public void add(Invitation item) {
         add(null, item);
     }
 
-    public void add(@Nullable Integer position, History.Invitation item) {
+    public void add(@Nullable Integer position, Invitation item) {
         if (position != null) {
             mInvitationList.add(position, item);
             notifyItemInserted(position);
@@ -193,7 +194,7 @@ public class InvitationlistAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         notifyDataSetChanged();
     }
 
-    public void addItems(List<History.Invitation> itemsList) {
+    public void addItems(List<Invitation> itemsList) {
         mInvitationList.addAll(itemsList);
         notifyDataSetChanged();
         notifyItemRangeInserted(getItemCount(), mInvitationList.size() - 1);
@@ -203,7 +204,7 @@ public class InvitationlistAdapter extends RecyclerView.Adapter<RecyclerView.Vie
      * Interface for handling list interactions
      */
     public interface InteractionListener {
-        void onListClick(History.Invitation invitation, View sharedElementView, int adapterPosition);
+        void onListClick(Invitation invitation, View sharedElementView, int adapterPosition);
     }
 
     public void setHistorylistInteractionListener(InteractionListener listInteractionListener) {

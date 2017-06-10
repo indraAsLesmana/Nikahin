@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.tutor93.core.data.model.History;
+import com.tutor93.core.data.model.Invitation;
 import com.tutor93.nikahin.R;
 import com.tutor93.nikahin.ui.base.BaseActivity;
 
@@ -22,7 +23,7 @@ public class HomeActivity extends BaseActivity {
 
     private static final String EXTRA_DETAIL_INVITATION = "historyInvitation";
 
-    public static Intent newStartIntent(Context context, History.Invitation invitation) {
+    public static Intent newStartIntent(Context context, Invitation invitation) {
         Intent intent = new Intent(context, HomeActivity.class);
         intent.putExtra(EXTRA_DETAIL_INVITATION, invitation);
         return intent;
@@ -31,12 +32,13 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        Invitation invitation = getIntent().getParcelableExtra(EXTRA_DETAIL_INVITATION);
 
+        setContentView(R.layout.activity_home);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.home_container, HomeFragment.newInstance())
+                    .replace(R.id.home_container, HomeFragment.newInstance(invitation))
                     .commit();
         }
     }

@@ -1,6 +1,7 @@
 package com.tutor93.core.ui.invitationlist;
 
 import com.tutor93.core.data.model.History;
+import com.tutor93.core.data.model.Invitation;
 import com.tutor93.core.ui.base.RemoteView;
 
 import java.util.List;
@@ -19,6 +20,6 @@ public interface InvitationlistContract {
 
     interface HistorylistView extends RemoteView {
 
-        void showHistorylist(List<History.Invitation> invitations);
+        void showHistorylist(List<Invitation> invitations);
     }
 }

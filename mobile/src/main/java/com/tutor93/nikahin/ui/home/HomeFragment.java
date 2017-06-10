@@ -18,6 +18,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.tutor93.core.data.DataManager;
 import com.tutor93.core.data.model.History;
+import com.tutor93.core.data.model.Invitation;
 import com.tutor93.core.ui.home.HomeContract;
 import com.tutor93.core.ui.home.HomePresenter;
 import com.tutor93.nikahin.R;
@@ -31,14 +32,20 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements HomeContract.HomeClickView{
 
+    private static final String ARG_INVITATION = "argCharacter";
+
     private HomePresenter mHomePresenter;
-    private List<History.Invitation> mHistory;
+    private List<Invitation> mInvitation;
     private ImageView mHeaderImage;
 
     private AppCompatActivity mActivity;
 
-    public static HomeFragment newInstance() {
-        return new HomeFragment();
+    public static HomeFragment newInstance(Invitation characterMarvel) {
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_INVITATION, characterMarvel);
+        HomeFragment fragment = new HomeFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override

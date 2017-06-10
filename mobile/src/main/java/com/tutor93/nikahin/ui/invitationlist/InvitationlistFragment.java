@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.tutor93.core.data.DataManager;
 import com.tutor93.core.data.model.History;
+import com.tutor93.core.data.model.Invitation;
 import com.tutor93.core.ui.invitationlist.InvitationlistContract;
 import com.tutor93.core.ui.invitationlist.InvitationlistPresenter;
 import com.tutor93.nikahin.R;
@@ -159,7 +160,7 @@ public class InvitationlistFragment extends Fragment implements InvitationlistCo
 
 
     @Override
-    public void showHistorylist(List<History.Invitation> invitations) {
+    public void showHistorylist(List<Invitation> invitations) {
         if (mInvitationlistAdapter.getViewType() != InvitationlistAdapter.VIEW_TYPE_GALLERY) {
             mInvitationlistAdapter.removeAll();
             mInvitationlistAdapter.setViewType(InvitationlistAdapter.VIEW_TYPE_GALLERY);
@@ -203,7 +204,7 @@ public class InvitationlistFragment extends Fragment implements InvitationlistCo
     }
 
     @Override
-    public void onListClick(History.Invitation invitation, View sharedElementView, int adapterPosition) {
+    public void onListClick(Invitation invitation, View sharedElementView, int adapterPosition) {
         startActivity(HomeActivity.newStartIntent(mActivity, invitation),
                 makeTransitionBundle(sharedElementView));
     }
