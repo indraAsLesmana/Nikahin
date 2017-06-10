@@ -6,4 +6,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_search">Search</string>
+    <string name="action_notification">notification</string>
 </resources>

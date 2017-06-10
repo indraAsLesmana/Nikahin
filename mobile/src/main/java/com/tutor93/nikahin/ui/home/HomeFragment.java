@@ -82,6 +82,7 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
+
         Glide.with(this)
                 .load(mInvitation.invitationImage)
                 .asBitmap()

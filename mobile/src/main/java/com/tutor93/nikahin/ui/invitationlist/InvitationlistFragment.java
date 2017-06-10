@@ -12,6 +12,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +83,11 @@ public class InvitationlistFragment extends Fragment implements InvitationlistCo
 
     private void initViews(View view) {
         mActivity = (AppCompatActivity) getActivity();
-//        mActivity.setSupportActionBar((Toolbar) view.findViewById(R.id.toolbar));
+        mActivity.setSupportActionBar((Toolbar) view.findViewById(R.id.toolbar));
+
+        if (mActivity.getSupportActionBar() != null){
+            mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         mHistorysRecycler = (RecyclerView) view.findViewById(R.id.recycler_invitationlist);
         mHistorysRecycler.setHasFixedSize(true);
