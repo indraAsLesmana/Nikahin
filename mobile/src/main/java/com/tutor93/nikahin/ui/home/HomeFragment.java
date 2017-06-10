@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.tutor93.core.data.DataManager;
 import com.tutor93.core.data.model.Invitation;
 import com.tutor93.core.ui.home.HomeContract;
@@ -64,6 +65,10 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        SupportMapFragment mapFragment = (SupportMapFragment)
+                this.getChildFragmentManager().findFragmentById(R.id.map_fragment);
+
         mHeaderImage = (ImageView) view.findViewById(R.id.iv_header);
         mHomePresenter.attachView(this);
         initViews(view);
