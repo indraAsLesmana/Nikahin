@@ -13,10 +13,11 @@
         android:transitionName="@string/transaction_header"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start|bottom"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/gradient_header">
 
         <TextView
             android:id="@+id/name"
