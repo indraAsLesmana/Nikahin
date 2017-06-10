@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
-            <!--<include layout="@layout/toolbar" />-->
+            <include layout="@layout/toolbar" />
 
         </android.support.design.widget.AppBarLayout>
 
@@ -24,7 +24,7 @@
             android:layout_gravity="center">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_historylist"
+                android:id="@+id/recycler_invitationlist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

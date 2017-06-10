@@ -21,7 +21,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.tutor93.core.data.DataManager;
-import com.tutor93.core.data.model.History;
 import com.tutor93.core.data.model.Invitation;
 import com.tutor93.core.ui.invitationlist.InvitationlistContract;
 import com.tutor93.core.ui.invitationlist.InvitationlistPresenter;
@@ -85,7 +84,7 @@ public class InvitationlistFragment extends Fragment implements InvitationlistCo
         mActivity = (AppCompatActivity) getActivity();
 //        mActivity.setSupportActionBar((Toolbar) view.findViewById(R.id.toolbar));
 
-        mHistorysRecycler = (RecyclerView) view.findViewById(R.id.recycler_historylist);
+        mHistorysRecycler = (RecyclerView) view.findViewById(R.id.recycler_invitationlist);
         mHistorysRecycler.setHasFixedSize(true);
         mHistorysRecycler.setMotionEventSplittingEnabled(false);
         mHistorysRecycler.setItemAnimator(new DefaultItemAnimator());

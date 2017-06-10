@@ -1,5 +1,7 @@
 package com.tutor93.nikahin.ui.invitationlist;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.squareup.picasso.Picasso;
 import com.tutor93.core.data.model.History;
 import com.tutor93.core.data.model.Invitation;
@@ -81,30 +87,23 @@ public class InvitationlistAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private void onBindGenericItemViewHolder(final CharacterViewHolder holder, int position) {
         holder.name.setText(mInvitationList.get(position).invitationTitle);
         holder.date.setText(mInvitationList.get(position).invitationDate);
-
         String invitationImage = mInvitationList.get(position).invitationImage;
+
         if (!TextUtils.isEmpty(invitationImage)) {
-
-            Picasso.with(holder.listItem.getContext())
-                    .load(invitationImage)
-                    .centerCrop()
-                    .fit()
-                    .into(holder.image);
-
-            // worst result by glide.
-            /*Glide.with(holder.listItem.getContext())
+            Glide.with(holder.listItem.getContext())
                     .load(invitationImage)
                     .asBitmap()
                     .centerCrop()
-                    .fitCenter()
-                    .into(new SimpleTarget<Bitmap>() {
+                    .crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(new SimpleTarget<Bitmap>(800, 480) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
                         BitmapDrawable bitmap1 = new
                                 BitmapDrawable(holder.listItem.getResources(), bitmap);
                         holder.image.setBackground(bitmap1);
                     }
-                });*/
+                });
         }
     }
 
@@ -196,7 +195,6 @@ public class InvitationlistAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void addItems(List<Invitation> itemsList) {
         mInvitationList.addAll(itemsList);
-        notifyDataSetChanged();
         notifyItemRangeInserted(getItemCount(), mInvitationList.size() - 1);
     }
 

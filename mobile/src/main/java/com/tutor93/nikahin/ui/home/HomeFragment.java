@@ -14,17 +14,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.tutor93.core.data.DataManager;
-import com.tutor93.core.data.model.History;
 import com.tutor93.core.data.model.Invitation;
 import com.tutor93.core.ui.home.HomeContract;
 import com.tutor93.core.ui.home.HomePresenter;
 import com.tutor93.nikahin.R;
-import com.tutor93.nikahin.util.Constant;
 
-import java.util.List;
 
 /**
  * Created by indraaguslesmana on 6/8/17.
@@ -35,14 +33,14 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
     private static final String ARG_INVITATION = "argCharacter";
 
     private HomePresenter mHomePresenter;
-    private List<Invitation> mInvitation;
+    private Invitation mInvitation;
     private ImageView mHeaderImage;
 
     private AppCompatActivity mActivity;
 
-    public static HomeFragment newInstance(Invitation characterMarvel) {
+    public static HomeFragment newInstance(Invitation invitation) {
         Bundle args = new Bundle();
-        args.putParcelable(ARG_INVITATION, characterMarvel);
+        args.putParcelable(ARG_INVITATION, invitation);
         HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
         return fragment;
@@ -51,7 +49,14 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+
         mHomePresenter = new HomePresenter(DataManager.getInstance());
+        if (savedInstanceState != null) {
+            mInvitation = savedInstanceState.getParcelable(ARG_INVITATION);
+        } else if (getArguments() != null) {
+            mInvitation = getArguments().getParcelable(ARG_INVITATION);
+        }
     }
 
     @Nullable
@@ -60,7 +65,6 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         mHeaderImage = (ImageView) view.findViewById(R.id.iv_header);
-
         mHomePresenter.attachView(this);
         initViews(view);
 
@@ -78,17 +82,20 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
-      /*  Glide.with(this)
-                .load(mHistory.get(0).imageGallery.get(0))
+        Glide.with(this)
+                .load(mInvitation.invitationImage)
                 .asBitmap()
-                .into(new SimpleTarget<Bitmap>() {
+                .centerCrop()
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(new SimpleTarget<Bitmap>(800, 480) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
                         BitmapDrawable bitmap1 = new
                                 BitmapDrawable(getResources(), bitmap);
                         mHeaderImage.setBackground(bitmap1);
                     }
-                });*/
+                });
 
     }
 

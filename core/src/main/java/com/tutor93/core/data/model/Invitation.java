@@ -31,7 +31,6 @@ public class Invitation implements Parcelable {
     @Expose
     public Location locations;
 
-
     @Override
     public int describeContents() {
         return 0;
