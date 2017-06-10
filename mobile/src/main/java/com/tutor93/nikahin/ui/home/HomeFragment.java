@@ -2,6 +2,7 @@ package com.tutor93.nikahin.ui.home;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.tutor93.core.data.DataManager;
 import com.tutor93.core.data.model.Invitation;
 import com.tutor93.core.ui.home.HomeContract;
@@ -29,13 +38,21 @@ import com.tutor93.nikahin.R;
  * Created by indraaguslesmana on 6/8/17.
  */
 
-public class HomeFragment extends Fragment implements HomeContract.HomeClickView{
+public class HomeFragment extends Fragment implements HomeContract.HomeClickView,
+        OnMapReadyCallback {
 
     private static final String ARG_INVITATION = "argCharacter";
 
     private HomePresenter mHomePresenter;
     private Invitation mInvitation;
     private ImageView mHeaderImage;
+
+    private boolean mapReady;
+    private GoogleMap m_map;
+    private MarkerOptions markPosition;
+    private LatLng mLocation;
+    private static final int ANIMATE_TIME = 10000; //10 seconds
+
 
     private AppCompatActivity mActivity;
 
@@ -68,6 +85,7 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
 
         SupportMapFragment mapFragment = (SupportMapFragment)
                 this.getChildFragmentManager().findFragmentById(R.id.map_fragment);
+        mapFragment.getMapAsync(this);
 
         mHeaderImage = (ImageView) view.findViewById(R.id.iv_header);
         mHomePresenter.attachView(this);
@@ -87,7 +105,6 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
-
         Glide.with(this)
                 .load(mInvitation.invitationImage)
                 .asBitmap()
@@ -103,6 +120,11 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
                     }
                 });
 
+        if (mInvitation.locations.latitude != null && mInvitation.locations.longitude != null){
+            Double longitude = Double.parseDouble(mInvitation.locations.longitude);
+            Double latitude = Double.parseDouble(mInvitation.locations.latitude);
+            mLocation = new LatLng(latitude, longitude);
+        }
     }
 
     @Override
@@ -133,5 +155,44 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
     @Override
     public void showMessageLayout(boolean show) {
 
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mapReady = true;
+        m_map = googleMap;
+
+        if (m_map == null) return;
+
+        markPosition = new MarkerOptions()
+                .position(mLocation)
+                .title(mInvitation.locations.name)
+                .icon(BitmapDescriptorFactory
+                        .fromResource(R.mipmap.ic_location));
+
+        m_map.addMarker(markPosition);
+        moveCamera(markPosition.getPosition(), false);
+    }
+
+    private void moveCamera(LatLng latLng, boolean isAnimate) {
+        CameraPosition target;
+
+        if (isAnimate) {
+            target = CameraPosition.builder()
+                    .target(latLng)
+                    .bearing(112)
+                    .tilt(65)
+                    .zoom(17)
+                    .build();
+
+            m_map.animateCamera(CameraUpdateFactory.newCameraPosition(target), ANIMATE_TIME, null);
+        } else {
+            // just jump in right into. without animate
+            target = CameraPosition.builder()
+                    .target(latLng)
+                    .zoom(17)
+                    .build();
+            m_map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
+        }
     }
 }
