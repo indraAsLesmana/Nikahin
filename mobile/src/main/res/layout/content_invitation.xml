@@ -60,6 +60,6 @@
         android:text="Button"
         android:textColor="@color/colorPrimary" />
 
-      <include layout="@layout/inc_maps"/>
+      <!--<include layout="@layout/inc_maps"/>-->
 
 </LinearLayout>

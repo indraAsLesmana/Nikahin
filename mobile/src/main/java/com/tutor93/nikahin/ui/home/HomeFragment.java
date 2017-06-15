@@ -2,7 +2,6 @@ package com.tutor93.nikahin.ui.home;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,7 +18,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -89,10 +87,9 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // TODO : need move to wrapper
-        /*SupportMapFragment mapFragment = (SupportMapFragment)
+        SupportMapFragment mapFragment = (SupportMapFragment)
                 this.getChildFragmentManager().findFragmentById(R.id.map_fragment);
-        mapFragment.getMapAsync(this);*/
+        mapFragment.getMapAsync(this);
 
         mHeaderImage = (ImageView) view.findViewById(R.id.iv_header);
         mHomePresenter.attachView(this);
@@ -133,12 +130,11 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
             mContentFrame.addView(mDetailWrapper);
         }
 
-        // TODO : need move to wrapper
-        /*if (mInvitation.locations.latitude != null && mInvitation.locations.longitude != null){
+        if (mInvitation.locations.latitude != null && mInvitation.locations.longitude != null){
             Double longitude = Double.parseDouble(mInvitation.locations.longitude);
             Double latitude = Double.parseDouble(mInvitation.locations.latitude);
             mLocation = new LatLng(latitude, longitude);
-        }*/
+        }
     }
 
     @Override
