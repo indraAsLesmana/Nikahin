@@ -50,6 +50,7 @@ public class HomeGalleryListAdapter extends RecyclerView.Adapter<HomeGalleryList
             Glide.with(holder.listItem.getContext())
                     .load(imageUrl)
                     .centerCrop()
+                    .crossFade()
                     .into(holder.image);
         }
     }

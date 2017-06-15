@@ -2,24 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="Countdown" />
+        android:text="Countdown"
+        android:textSize="@dimen/text_size_detailview" />
 
     <TextView
         android:id="@+id/tv_counttime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin"
         android:text="28 days : 23 Hours : 56 Minutes : 12 Seconds"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:typeface="serif" />
 
@@ -32,7 +36,8 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gallery" />
+            android:text="Gallery"
+            android:textSize="@dimen/text_size_detailview" />
 
         <TextView
             android:id="@+id/textView"
@@ -42,14 +47,17 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:text="See All"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/text_size_detailview" />
 
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_contentimage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/default_margin_1" />
 
     <Button
         android:id="@+id/button2"
@@ -60,6 +68,6 @@
         android:text="Button"
         android:textColor="@color/colorPrimary" />
 
-      <!--<include layout="@layout/inc_maps"/>-->
+    <!--<include layout="@layout/inc_maps"/>-->
 
 </LinearLayout>
