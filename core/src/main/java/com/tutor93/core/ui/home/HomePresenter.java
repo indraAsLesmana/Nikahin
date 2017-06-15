@@ -19,4 +19,8 @@ public class HomePresenter extends BasePresenter<HomeContract.HomeClickView> imp
         mDataManager = dataManager;
     }
 
+    @Override
+    public void onImagelistReqeust() {
+
+    }
 }

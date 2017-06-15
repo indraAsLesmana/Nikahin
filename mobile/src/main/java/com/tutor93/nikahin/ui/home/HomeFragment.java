@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -32,6 +33,9 @@ import com.tutor93.core.data.model.Invitation;
 import com.tutor93.core.ui.home.HomeContract;
 import com.tutor93.core.ui.home.HomePresenter;
 import com.tutor93.nikahin.R;
+import com.tutor93.nikahin.util.widgets.DetailFrameWrapper;
+
+import java.util.List;
 
 
 /**
@@ -39,20 +43,22 @@ import com.tutor93.nikahin.R;
  */
 
 public class HomeFragment extends Fragment implements HomeContract.HomeClickView,
-        OnMapReadyCallback {
+        OnMapReadyCallback, HomeGalleryListAdapter.OnImageClickListener {
 
     private static final String ARG_INVITATION = "argCharacter";
 
     private HomePresenter mHomePresenter;
     private Invitation mInvitation;
     private ImageView mHeaderImage;
+    private LinearLayout mContentFrame;
+
+    private DetailFrameWrapper mDetailWrapper;
 
     private boolean mapReady;
     private GoogleMap m_map;
     private MarkerOptions markPosition;
     private LatLng mLocation;
     private static final int ANIMATE_TIME = 10000; //10 seconds
-
 
     private AppCompatActivity mActivity;
 
@@ -83,9 +89,10 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        SupportMapFragment mapFragment = (SupportMapFragment)
+        // TODO : need move to wrapper
+        /*SupportMapFragment mapFragment = (SupportMapFragment)
                 this.getChildFragmentManager().findFragmentById(R.id.map_fragment);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this);*/
 
         mHeaderImage = (ImageView) view.findViewById(R.id.iv_header);
         mHomePresenter.attachView(this);
@@ -120,11 +127,18 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
                     }
                 });
 
-        if (mInvitation.locations.latitude != null && mInvitation.locations.longitude != null){
+        mContentFrame = (LinearLayout) view.findViewById(R.id.details_content_frame);
+        if (mInvitation != null) {
+            mDetailWrapper = new DetailFrameWrapper(mActivity, mInvitation, this);
+            mContentFrame.addView(mDetailWrapper);
+        }
+
+        // TODO : need move to wrapper
+        /*if (mInvitation.locations.latitude != null && mInvitation.locations.longitude != null){
             Double longitude = Double.parseDouble(mInvitation.locations.longitude);
             Double latitude = Double.parseDouble(mInvitation.locations.latitude);
             mLocation = new LatLng(latitude, longitude);
-        }
+        }*/
     }
 
     @Override
@@ -171,7 +185,7 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
                         .fromResource(R.mipmap.ic_location));
 
         m_map.addMarker(markPosition);
-        moveCamera(markPosition.getPosition(), false);
+        moveCamera(markPosition.getPosition(), true);
     }
 
     private void moveCamera(LatLng latLng, boolean isAnimate) {
@@ -194,5 +208,10 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
                     .build();
             m_map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
         }
+    }
+
+    @Override
+    public void showImageList(List<String> imageList) {
+        mDetailWrapper.loadImages(imageList);
     }
 }
