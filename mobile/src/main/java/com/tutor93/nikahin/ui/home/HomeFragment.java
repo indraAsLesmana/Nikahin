@@ -1,9 +1,11 @@
 package com.tutor93.nikahin.ui.home;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +28,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.tutor93.core.data.DataManager;
 import com.tutor93.core.data.model.Invitation;
 import com.tutor93.core.ui.home.HomeContract;
@@ -41,7 +44,7 @@ import java.util.List;
  */
 
 public class HomeFragment extends Fragment implements HomeContract.HomeClickView,
-        OnMapReadyCallback, HomeGalleryListAdapter.OnImageClickListener {
+        OnMapReadyCallback, HomeGalleryListAdapter.OnImageClickListener, View.OnClickListener {
 
     private static final String ARG_INVITATION = "argCharacter";
 
@@ -49,6 +52,7 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
     private Invitation mInvitation;
     private ImageView mHeaderImage;
     private LinearLayout mContentFrame;
+    private FloatingActionButton scannerBtn;
 
     private DetailFrameWrapper mDetailWrapper;
 
@@ -59,6 +63,9 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
     private static final int ANIMATE_TIME = 10000; //10 seconds
 
     private AppCompatActivity mActivity;
+
+    //qr code scanner object
+    private IntentIntegrator qrScan;
 
     public static HomeFragment newInstance(Invitation invitation) {
         Bundle args = new Bundle();
@@ -79,6 +86,13 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
         } else if (getArguments() != null) {
             mInvitation = getArguments().getParcelable(ARG_INVITATION);
         }
+        //intializing scan object
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Nullable
@@ -95,6 +109,7 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
         mHomePresenter.attachView(this);
         initViews(view);
 
+
         return view;
     }
 
@@ -108,6 +123,10 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
+
+        qrScan = new IntentIntegrator(mActivity);
+        scannerBtn = (FloatingActionButton) view.findViewById(R.id.scannerButton);
+        scannerBtn.setOnClickListener(this);
 
         Glide.with(this)
                 .load(mInvitation.invitationImage)
@@ -209,5 +228,14 @@ public class HomeFragment extends Fragment implements HomeContract.HomeClickView
     @Override
     public void showImageList(List<String> imageList) {
         mDetailWrapper.loadImages(imageList);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.scannerButton:
+                qrScan.initiateScan();
+                break;
+        }
     }
 }
